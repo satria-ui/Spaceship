@@ -32,7 +32,7 @@ class ClientList:
 #--------------------- view  -------------------------------------------------#
 
 class Label:
-
+#text element GUI
 
     def __init__(self, text, font):
         self.text = text
@@ -42,7 +42,7 @@ class Label:
         surface.blit(self.font.render(self.text, True, color), (x - 8, y - 15))
 
 class Rectangle:
-    
+#screen GUI    
 
     def __init__(self, topLeft, size):
         self.rect = (topLeft[0], topLeft[1], size[0], size[1])
@@ -51,7 +51,7 @@ class Rectangle:
         pg.draw.rect(surface, color, self.rect)
 
 class Button:
-    
+#Button Element    
 
     def __init__(self, panel, text, onColor, offColor):
         self.panel = panel
@@ -91,6 +91,7 @@ class ViewController:
 
         self.clientBox = Rectangle((50, 40), (600, 400))
 
+        #quitbutton attribute
         self.quitButton = Button(
             panel = Rectangle((100, 500), (200, 32)),
             text = Label("Shut Down Server", self.font),
@@ -106,6 +107,7 @@ class ViewController:
     
     def drawScreen(self, clientList):
         self.screen.fill(self.palette["teal"])
+        #to show client list
         self.clientBox.draw(self.screen, self.palette["yellow"])
 
         client = clientList.head
@@ -117,6 +119,7 @@ class ViewController:
             client = client.next
         
         self.portLabel.draw(self.screen, 300, 20, self.palette["light-yellow"])
+        #draw quit button
         self.quitButton.draw(self.screen)
         pg.display.update()
 
