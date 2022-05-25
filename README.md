@@ -1,11 +1,17 @@
 # ProgJarFinal
 
 Our Team Members:
+
 05111942000001 (Adam Satria)
+
 05111942000010 (Aldi)
+
 05111942000025 (Gilbert)
+
 05111942000027 (Ascarya)
+
 05111942000028 (Salma Izzatul)
+
 05111942000029 (Nadhif)
 
 ## Explanation
@@ -14,27 +20,41 @@ This project is a remake of the classic battleship board game. It is a strategy 
 ## Job Description
 
 Server/Client Programmer
+
 Adam Satria
+
 Gilbert
 
 Game Logic Programmer
+
 Aldi
+
 Asca
 
 UI/UX Designer
+
 Nadhif
+
 Salma
 
 ## Features
+
 Chatbox
+
 Server Client Multiplayer
+
 Hit Animation
+
 Sound Animation
 
 ## Class Module
+
 TCP
+
 Server Client
+
 Select, Queue, Thread
+
 Object Serialization
 
 ## Tasks and Timeline
