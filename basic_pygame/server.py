@@ -24,7 +24,7 @@ def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 
 #starting position of player 1 & 2
-pos = [(0,0),(100,100)]
+pos = [(1,1),(100,100)]
 
 def threaded_client(conn, player):
     conn.send(str.encode(make_pos(pos[player])))

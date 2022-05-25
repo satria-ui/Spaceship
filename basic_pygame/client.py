@@ -1,4 +1,5 @@
 import pygame
+import os
 from network import Network
 
 clientNumber = 0
@@ -6,6 +7,13 @@ width = 500
 height = 500
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Client")
+spaceback = pygame.image.load('assets\spaceback.png')
+spaceback = pygame.transform.scale(spaceback,(width,height))
+ship1 = pygame.image.load('assets\ship1.png')
+ship1 = pygame.transform.scale(ship1,(width*0.2,height*0.2))
+ship2 = pygame.image.load('assets\ship2.png')
+ship2 = pygame.transform.scale(ship2,(width*0.2,height*0.2))
+
 
 class Player():
     def __init__(self, x, y, width, height, color):
@@ -14,6 +22,8 @@ class Player():
         self.width = width
         self.height = height
         self.color = color
+        # self.image = pygame.image.load(os.path.join('resources', 'assets/ship1.png'
+        # self.rect = self.image.get_rect(topleft=pos)
         self.rect = (x,y,width,height)
         self.vel = 3
 
@@ -52,8 +62,22 @@ def make_pos(tup):
 
 def redrawWindow(win,player, player2):
     win.fill((255,255,255))
+
+    #for background
+    i = 0
+    win.blit(spaceback, (i, 0))
+    win.blit(spaceback, (width + i, 0))
+    if (i == -width):
+        win.blit(spaceback, (width + i, 0))
+        i = 0
+    i -= 1
+
     player.draw(win)
+    win.blit(ship1, (player.x,player.y))
+
     player2.draw(win)
+    win.blit(ship2, (player2.x, player2.y))
+
     pygame.display.update()
 
 
