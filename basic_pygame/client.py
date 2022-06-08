@@ -15,7 +15,6 @@ ship1 = pygame.transform.scale(ship1,(100,100))
 ship2 = pygame.image.load('./assets/ship2.png')
 ship2 = pygame.transform.scale(ship2,(100,100))
 
-bullet_counts = []
 MAX_BULLET = 3
 BULLET_COLOR = (255,0,0) #merah
 BULLET_VEL = 5
@@ -31,7 +30,7 @@ class Player():
         self.vel = 3
 
     def draw(self):
-        pygame.Rect(self.rect)
+        return pygame.Rect(self.rect)
 
     def move(self):
         keys = pygame.key.get_pressed()
@@ -63,7 +62,7 @@ def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 
 
-def redrawWindow(win,player, player2, bullet):
+def redrawWindow(win,player, player2, bullet_counts):
     win.fill((100,100,100))
 
     #for background
@@ -86,16 +85,17 @@ def redrawWindow(win,player, player2, bullet):
         
     pygame.display.update()
 
-def bullet_handle(bullet):
+def bullet_handle(bullet_counts):
     for bullet in bullet_counts:
         bullet.y -= BULLET_VEL
         
-        if bullet.x > width:
+        if bullet.y < 0:
             bullet_counts.remove(bullet)
 
 def main():
     PLAYER_HEIGHT = 100
     PLAYER_WIDTH = 100
+    bullet_counts = []
     
     run = True
     n = Network()
@@ -118,12 +118,13 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL and len(bullet_counts) < MAX_BULLET:
-                    bullet = pygame.Rect(p.draw.x + p.draw.width, p.draw.y + int(p.draw.height/2), 10, 5)
+                    bullet = pygame.Rect(p.x + p.width, p.y + int(p.height/2), 10, 5)
                     bullet_counts.append(bullet)
-
+        
+        redrawWindow(win, p, p2, bullet_counts) 
         p.move()
-        bullet_handle(bullet)
-        redrawWindow(win, p, p2, bullet) 
+        bullet_handle(bullet_counts)
+        
                     
 if __name__ == "__main__":
     main()
