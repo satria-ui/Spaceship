@@ -15,7 +15,11 @@ Our Team Members:
 05111942000029 (Nadhif)
 
 ## Explanation
-This project is a remake of the classic battleship board game. It is a strategy guessing type game played on a ruled grid by two person. Each player placed their warship on the grid, the location of the ships are concealed from the other player. Player take turns guessing the grids “shooting” at the other player’s ships. The objective of the game is to destroy the opposing player’s ships. In this project, we’re making the grid 10x10 and the individual grids are identified with (row,column) matrices.The number of squares for each ship is determined by the type of ship. Players need to arrange their ships where they should not overlap with each other. They types and numbers of the ship will be the same for each player.
+~This project is a remake of the classic battleship board game. It is a strategy guessing type game played on a ruled grid by two person. Each player placed their warship on the grid, the location of the ships are concealed from the other player. Player take turns guessing the grids “shooting” at the other player’s ships. The objective of the game is to destroy the opposing player’s ships. In this project, we’re making the grid 10x10 and the individual grids are identified with (row,column) matrices.The number of squares for each ship is determined by the type of ship. Players need to arrange their ships where they should not overlap with each other. They types and numbers of the ship will be the same for each player.~
+
+The project is a multiplayer player vs player game. Player 1 and Player 2 would compete against each other by shooting another's spaceship until the other's health reaches zero where the game will end and the winner will be determined.
+
+
 
 
 
