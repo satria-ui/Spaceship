@@ -11,15 +11,9 @@ spaceback = pygame.image.load('./assets/spaceback.png')
 spaceback = pygame.transform.scale(spaceback,(width,height))
 
 ship1 = pygame.image.load('./assets/ship1.png')
-ship1 = pygame.transform.scale(ship1,(100,100))
+ship1 = pygame.transform.rotate(pygame.transform.scale(ship1,(100,100)), 270)
 ship2 = pygame.image.load('./assets/ship2.png')
-ship2 = pygame.transform.scale(ship2,(100,100))
-
-p1startx = 0
-p1starty = 0
-p2startx = 700
-p2starty = 700
-
+ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
 
 MAX_BULLET = 3
 BULLET_COLOR = (255,0,0) #merah
@@ -93,15 +87,16 @@ def redrawWindow(win,player, player2, bullet_counts):
 
 def bullet_handle(bullet_counts):
     for bullet in bullet_counts:
-        bullet.y -= BULLET_VEL
+        bullet.x += BULLET_VEL
         
-        if bullet.y < 0:
+        if bullet.x > width:
             bullet_counts.remove(bullet)
 
 def main():
     PLAYER_HEIGHT = 100
     PLAYER_WIDTH = 100
     bullet_counts = []
+    rotate = 0
     
     run = True
     n = Network()
@@ -112,6 +107,7 @@ def main():
     
     while run:
         clock.tick(60)
+        
         p2Pos = read_pos(n.send(make_pos((p.x, p.y))))
         p2.x = p2Pos[0]
         p2.y = p2Pos[1]
@@ -124,7 +120,7 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL and len(bullet_counts) < MAX_BULLET:
-                    bullet = pygame.Rect(p.x + int(p.width/2), p.y, 3, 10)
+                    bullet = pygame.Rect(p.x + p.width, p.y + int(p.height/2), 10, 3)
                     bullet_counts.append(bullet)
                     
         
