@@ -3,48 +3,56 @@ import os
 from network import Network
 
 clientNumber = 0
-width = 500
-height = 500
+width = 800
+height = 800
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Client")
-spaceback = pygame.image.load('assets\spaceback.png')
+spaceback = pygame.image.load('./assets/spaceback.png')
 spaceback = pygame.transform.scale(spaceback,(width,height))
-ship1 = pygame.image.load('assets\ship1.png')
-ship1 = pygame.transform.scale(ship1,(width*0.2,height*0.2))
-ship2 = pygame.image.load('assets\ship2.png')
-ship2 = pygame.transform.scale(ship2,(width*0.2,height*0.2))
+
+ship1 = pygame.image.load('./assets/ship1.png')
+ship1 = pygame.transform.scale(ship1,(100,100))
+ship2 = pygame.image.load('./assets/ship2.png')
+ship2 = pygame.transform.scale(ship2,(100,100))
+
+p1startx = 0
+p1starty = 0
+p2startx = 700
+p2starty = 700
+
+
+MAX_BULLET = 3
+BULLET_COLOR = (255,0,0) #merah
+BULLET_VEL = 5
 
 
 class Player():
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.color = color
-        # self.image = pygame.image.load(os.path.join('resources', 'assets/ship1.png'
-        # self.rect = self.image.get_rect(topleft=pos)
         self.rect = (x,y,width,height)
         self.vel = 3
 
-    def draw(self, win):
-        pygame.draw.rect(win, self.color, self.rect)
+    def draw(self):
+        return pygame.Rect(self.rect)
 
     def move(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and self.x > 0 and self.x < width/2 or keys[pygame.K_LEFT] and self.x > width/2 + self.width/2:
             self.x -= self.vel
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and self.x < width - self.width and self.x > width/2 or keys[pygame.K_RIGHT] and self.x < width/2 - self.width/2:
             self.x += self.vel
 
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP] and self.y > 0:
             self.y -= self.vel
 
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_DOWN] and self.y < height - self.height:
             self.y += self.vel
-
+            
         self.update()
 
     def update(self):
@@ -60,8 +68,8 @@ def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 
 
-def redrawWindow(win,player, player2):
-    win.fill((255,255,255))
+def redrawWindow(win,player, player2, bullet_counts):
+    win.fill((100,100,100))
 
     #for background
     i = 0
@@ -72,36 +80,57 @@ def redrawWindow(win,player, player2):
         i = 0
     i -= 1
 
-    player.draw(win)
+    player.draw()
     win.blit(ship1, (player.x,player.y))
 
-    player2.draw(win)
+    player2.draw()
     win.blit(ship2, (player2.x, player2.y))
 
+    for bullet in bullet_counts:
+        pygame.draw.rect(win, BULLET_COLOR, bullet)
+        
     pygame.display.update()
 
+def bullet_handle(bullet_counts):
+    for bullet in bullet_counts:
+        bullet.y -= BULLET_VEL
+        
+        if bullet.y < 0:
+            bullet_counts.remove(bullet)
 
 def main():
+    PLAYER_HEIGHT = 100
+    PLAYER_WIDTH = 100
+    bullet_counts = []
+    
     run = True
     n = Network()
     startPos = read_pos(n.getPos())
-    p = Player(startPos[0],startPos[1],100,100,(0,255,0))
-    p2 = Player(0,0,100,100,(255,0,0))
+    p = Player(startPos[0],startPos[1],PLAYER_HEIGHT,PLAYER_WIDTH)
+    p2 = Player(0,0,PLAYER_HEIGHT, PLAYER_WIDTH)
     clock = pygame.time.Clock()
-
+    
     while run:
         clock.tick(60)
         p2Pos = read_pos(n.send(make_pos((p.x, p.y))))
         p2.x = p2Pos[0]
         p2.y = p2Pos[1]
         p2.update()
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LCTRL and len(bullet_counts) < MAX_BULLET:
+                    bullet = pygame.Rect(p.x + int(p.width/2), p.y, 3, 10)
+                    bullet_counts.append(bullet)
+                    
+        
+        redrawWindow(win, p, p2, bullet_counts) 
         p.move()
-        redrawWindow(win, p, p2)
-
-main()
+        bullet_handle(bullet_counts)
+                    
+if __name__ == "__main__":
+    main()

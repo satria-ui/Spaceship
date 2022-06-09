@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 
-server = "192.168.137.1"
+server = "172.25.32.1"
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,7 +24,7 @@ def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 
 #starting position of player 1 & 2
-pos = [(1,1),(100,100)]
+pos = [(1,400),(700,400)]
 
 def threaded_client(conn, player):
     conn.send(str.encode(make_pos(pos[player])))
