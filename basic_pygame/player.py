@@ -4,16 +4,25 @@ width = 800
 height = 800
 
 class Player():
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, color, rotation):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.color = color
         self.rect = (x,y,width,height)
         self.vel = 3
+        self.rotation = rotation
 
-    def draw(self):
-        return pygame.Rect(self.rect)
+    def draw(self, win):
+        ship = pygame.image.load('./assets/ship1.png')
+        # ship2 = pygame.image.load('./assets/ship2.png')
+        ship = pygame.transform.rotate(pygame.transform.scale(ship,(100,100)), self.rotation)
+        # ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
+        # win.blit(ship, self.x, self.y)
+        pygame.draw.rect(win, self.color, self.rect)
+        win.blit(ship, (self.rect[0],self.rect[1]))
+        # pygame.Rect(self.rect)
 
     def move(self):
         keys = pygame.key.get_pressed()

@@ -1,5 +1,5 @@
 import socket
-import pickle
+import pickle #serialize object
 
 class Network:
     def __init__(self):
@@ -12,11 +12,10 @@ class Network:
     def getP(self):
         return self.p
 
-
     def connect(self):
         try:
             self.client.connect(self.addr)
-            return pickle.loads(self.client.recv(2048))
+            return pickle.loads(self.client.recv(2048)) # loading byte data
         except:
             pass
 
