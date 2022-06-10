@@ -120,9 +120,8 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL and len(bullet_counts) < MAX_BULLET:
-                    bullet = pygame.Rect(p.x + p.width, p.y + int(p.height/2), 10, 3)
+                    bullet = pygame.Rect(p.x + p.width, p.y + int(p.height/2), 10, 5)
                     bullet_counts.append(bullet)
-                    
         
         redrawWindow(win, p, p2, bullet_counts) 
         p.move()

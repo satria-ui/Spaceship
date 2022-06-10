@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 
-server = "172.25.32.1"
+server = "192.168.56.1"
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
