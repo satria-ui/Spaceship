@@ -1,10 +1,13 @@
 import pygame
+pygame.font.init()
 
 width = 800
 height = 800
+BULLET_COLOR = (255,0,0)
+HEALTH_FONT = pygame.font.SysFont('freesansbold.ttf', 40)
 
 class Player():
-    def __init__(self, x, y, width, height, color, rotation):
+    def __init__(self, x, y, width, height, color, rotation, bullet_pos):
         self.x = x
         self.y = y
         self.width = width
@@ -13,16 +16,26 @@ class Player():
         self.rect = (x,y,width,height)
         self.vel = 3
         self.rotation = rotation
+        self.bullet_pos = bullet_pos
+        self.player = pygame.Rect(self.rect)
 
-    def draw(self, win):
+    def draw(self, win, bullet_counts, player_health):
         ship = pygame.image.load('./assets/ship1.png')
         # ship2 = pygame.image.load('./assets/ship2.png')
         ship = pygame.transform.rotate(pygame.transform.scale(ship,(100,100)), self.rotation)
         # ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
-        # win.blit(ship, self.x, self.y)
+        player_health_text = HEALTH_FONT.render("Health: " +str(player_health), True, BULLET_COLOR)
+        win.blit(player_health_text, (10, 10))
+    
         pygame.draw.rect(win, self.color, self.rect)
         win.blit(ship, (self.rect[0],self.rect[1]))
         # pygame.Rect(self.rect)
+        
+        for bullet in bullet_counts:
+            pygame.draw.rect(win, BULLET_COLOR, bullet)
+            # self.bullet_pos
+            # if bullet.x > width or bullet.x < 0 :
+            #     bullet_counts.remove(bullet)
 
     def move(self):
         keys = pygame.key.get_pressed()
