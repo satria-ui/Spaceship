@@ -5,7 +5,8 @@ from player import Player
 
 width = 800
 height = 800
-PLAYER_HIT = pygame.USEREVENT + 1
+ENEMY_HIT = pygame.USEREVENT + 1
+PLAYER_HIT = pygame.USEREVENT + 2
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Spaceship")
 # spaceback = pygame.image.load('./assets/spaceback.png')
@@ -13,10 +14,10 @@ pygame.display.set_caption("Spaceship")
 
 MAX_BULLET = 3
 # BULLET_COLOR = (255,0,0) #merah
-BULLET_VEL = 5
+BULLET_VEL = 20
 
 
-def draw_window(win,player, player2, bullet_counts, PLAYER_HEALTH):
+def draw_window(win,player, player2, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH):
     win.fill((100,100,100))
     #for background
     # i = 0
@@ -33,10 +34,10 @@ def draw_window(win,player, player2, bullet_counts, PLAYER_HEALTH):
     # ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
     
     # win.blit(ship1, (player.x,player.y))
-    player.draw(win, bullet_counts, PLAYER_HEALTH)
+    player.draw(win, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
 
     # win.blit(ship2, (player2.x, player2.y))
-    player2.draw(win, bullet_counts, PLAYER_HEALTH)
+    player2.draw(win, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
     
     # for bullet in bullet_counts:
     #     pygame.draw.rect(win, BULLET_COLOR, bullet)
@@ -49,13 +50,17 @@ def bullet_handle(bullet_counts, p2):
         if bullet.x > width:
             bullet_counts.remove(bullet)
         elif p2.player.colliderect(bullet):
-            pygame.event.post(pygame.event.Event(PLAYER_HIT))
+            pygame.event.post(pygame.event.Event(ENEMY_HIT))
             bullet_counts.remove(bullet)
+        # elif p.player.colliderect(bullet):
+            # pygame.event.post(pygame.event.Event(PLAYER_HIT))
+            # bullet_counts.remove(bullet)
 
 def main():
     PLAYER_HEIGHT = 100
     PLAYER_WIDTH = 100
     bullet_counts = []
+    ENEMY_HEALTH = 10
     PLAYER_HEALTH = 10
     
     run = True
@@ -76,10 +81,12 @@ def main():
                         bullet = pygame.Rect(p.x + int(p.width/2), p.y + int(p.height/2), 10, 5)
                         bullet_counts.append(bullet)
             
+            if event.type == ENEMY_HIT:
+                ENEMY_HEALTH -= 1
             if event.type == PLAYER_HIT:
                 PLAYER_HEALTH -= 1
         
-        draw_window(win, p, p2, bullet_counts, PLAYER_HEALTH) 
+        draw_window(win, p, p2, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH) 
         p.move()
         bullet_handle(bullet_counts, p2)
                     
