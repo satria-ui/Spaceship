@@ -17,7 +17,7 @@ MAX_BULLET = 3
 BULLET_VEL = 20
 
 
-def draw_window(win,player, player2, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH):
+def draw_window(win,player, player2, bullet_counts, enemy_health):
     win.fill((100,100,100))
     #for background
     # i = 0
@@ -34,10 +34,10 @@ def draw_window(win,player, player2, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
     # ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
     
     # win.blit(ship1, (player.x,player.y))
-    player.draw(win, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
+    player.draw(win, bullet_counts, enemy_health)
 
     # win.blit(ship2, (player2.x, player2.y))
-    player2.draw(win, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
+    player2.draw(win, bullet_counts, enemy_health)
     
     # for bullet in bullet_counts:
     #     pygame.draw.rect(win, BULLET_COLOR, bullet)
@@ -60,8 +60,6 @@ def main():
     PLAYER_HEIGHT = 100
     PLAYER_WIDTH = 100
     bullet_counts = []
-    ENEMY_HEALTH = 10
-    PLAYER_HEALTH = 10
     
     run = True
     n = Network()
@@ -71,6 +69,7 @@ def main():
     while run:
         clock.tick(60)
         p2 = n.send(p)
+        p2_health = 10
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -82,11 +81,12 @@ def main():
                         bullet_counts.append(bullet)
             
             if event.type == ENEMY_HIT:
-                ENEMY_HEALTH -= 1
-            if event.type == PLAYER_HIT:
-                PLAYER_HEALTH -= 1
+                p2_health -= 1
+            # if event.type == PLAYER_HIT:
+            #     PLAYER_HEALTH -= 1
         
-        draw_window(win, p, p2, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH) 
+        print(p2_health)
+        draw_window(win, p, p2, bullet_counts, p2_health)
         p.move()
         bullet_handle(bullet_counts, p2)
                     
