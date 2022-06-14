@@ -21,17 +21,16 @@ class Player():
         self.bullet_pos = bullet_pos
         self.player = pygame.Rect(self.rect)
 
-    def draw(self, win, bullet_counts, enemy_health):
-        ship = pygame.image.load('./assets/ship1.png')
-        # ship2 = pygame.image.load('./assets/ship2.png')
-        ship = pygame.transform.rotate(pygame.transform.scale(ship,(100,100)), self.rotation)
-        # ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
+    def draw(self, win, ship, bullet_counts, enemy_health, player_health):
+        # ship = pygame.image.load('./assets/ship1.png')
+        # ship = pygame.transform.rotate(pygame.transform.scale(ship,(100,100)), self.rotation)
+ 
         enemy_health_text = HEALTH_FONT.render("Enemy Health: " + str(enemy_health), True, RED)
-        # player_health_text = HEALTH_FONT.render("Player Health: " + str(player_health), True, GREEN)
+        player_health_text = HEALTH_FONT.render("Player Health: " + str(player_health), True, GREEN)
         win.blit(enemy_health_text, (width - enemy_health_text.get_width() - 10, 10))
-        # win.blit(player_health_text, (10, 10))
+        win.blit(player_health_text, (10, 10))
     
-        pygame.draw.rect(win, self.color, self.rect)
+        # pygame.draw.rect(win, self.color, self.rect)
         win.blit(ship, (self.rect[0],self.rect[1]))
         # pygame.Rect(self.rect)
         

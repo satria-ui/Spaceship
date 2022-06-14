@@ -9,35 +9,36 @@ ENEMY_HIT = pygame.USEREVENT + 1
 PLAYER_HIT = pygame.USEREVENT + 2
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Spaceship")
-# spaceback = pygame.image.load('./assets/spaceback.png')
-# spaceback = pygame.transform.scale(spaceback,(width,height))
+spaceback = pygame.image.load('./assets/spaceback.png')
+spaceback = pygame.transform.scale(spaceback,(width,height))
 
 MAX_BULLET = 3
 # BULLET_COLOR = (255,0,0) #merah
-BULLET_VEL = 20
+BULLET_VEL = 5
 
 
-def draw_window(win,player, player2, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH):
+def draw_window(win,player, enemy, bullet_counts, enemy_health, player_health):
     win.fill((100,100,100))
     #for background
-    # i = 0
-    # win.blit(spaceback, (i, 0))
-    # win.blit(spaceback, (width + i, 0))
-    # if (i == -width):
-    #     win.blit(spaceback, (width + i, 0))
-    #     i = 0
-    # i -= 1
+    i = 0
+    win.blit(spaceback, (i, 0))
+    win.blit(spaceback, (width + i, 0))
+    if (i == -width):
+        win.blit(spaceback, (width + i, 0))
+        i = 0
+    i -= 1
     
-    # ship1 = pygame.image.load('./assets/ship1.png')
-    # ship1 = pygame.transform.rotate(pygame.transform.scale(ship1,(100,100)), 270)
-    # ship2 = pygame.image.load('./assets/ship2.png')
-    # ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), 90)
+    ship = pygame.image.load('./assets/ship2.png')
+    ship = pygame.transform.rotate(pygame.transform.scale(ship,(100,100)), player.rotation)
+    ship2 = pygame.image.load('./assets/ship1.png')
+    ship2 = pygame.transform.rotate(pygame.transform.scale(ship2,(100,100)), enemy.rotation)
     
     # win.blit(ship1, (player.x,player.y))
-    player.draw(win, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
-
+    player.draw(win, ship, bullet_counts, enemy_health, player_health)
+    print("PLAYER: " + str(player_health))
     # win.blit(ship2, (player2.x, player2.y))
-    player2.draw(win, bullet_counts, ENEMY_HEALTH, PLAYER_HEALTH)
+    enemy.draw(win, ship2, bullet_counts, enemy_health, player_health)
+    print("ENEMY: " + str(enemy_health))
     
     # for bullet in bullet_counts:
     #     pygame.draw.rect(win, BULLET_COLOR, bullet)
@@ -49,7 +50,7 @@ def bullet_handle(bullet_counts, p2):
         bullet.x -= BULLET_VEL
         if bullet.x < 0:
             bullet_counts.remove(bullet)
-        elif p2.player.colliderect(bullet):
+        elif pygame.Rect.colliderect(bullet,p2.player):
             pygame.event.post(pygame.event.Event(ENEMY_HIT))
             bullet_counts.remove(bullet)
         # elif p.player.colliderect(bullet):
