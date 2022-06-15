@@ -21,10 +21,7 @@ class Player():
         self.bullet_pos = bullet_pos
         self.player = pygame.Rect(self.rect)
 
-    def draw(self, win, ship, bullet_counts, enemy_health, player_health):
-        # ship = pygame.image.load('./assets/ship1.png')
-        # ship = pygame.transform.rotate(pygame.transform.scale(ship,(100,100)), self.rotation)
- 
+    def draw(self, win, ship, bullet_counts, bullet_enemy_counts, enemy_health, player_health):
         enemy_health_text = HEALTH_FONT.render("Enemy Health: " + str(enemy_health), True, RED)
         player_health_text = HEALTH_FONT.render("Player Health: " + str(player_health), True, GREEN)
         win.blit(enemy_health_text, (width - enemy_health_text.get_width() - 10, 10))
@@ -32,13 +29,16 @@ class Player():
     
         # pygame.draw.rect(win, self.color, self.rect)
         win.blit(ship, (self.rect[0],self.rect[1]))
-        # pygame.Rect(self.rect)
+        
         
         for bullet in bullet_counts:
             pygame.draw.rect(win, BULLET_COLOR, bullet)
             # self.bullet_pos
             # if bullet.x > width or bullet.x < 0 :
             #     bullet_counts.remove(bullet)
+            
+        for bullet2 in bullet_enemy_counts:
+            pygame.draw.rect(win, BULLET_COLOR, bullet2)
 
     def move(self):
         keys = pygame.key.get_pressed()
