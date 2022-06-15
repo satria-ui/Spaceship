@@ -13,6 +13,8 @@ win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("CLIENT 1")
 spaceback = pygame.image.load('./assets/spaceback.png')
 spaceback = pygame.transform.scale(spaceback,(width,height))
+HIT_SOUND = pygame.mixer.Sound("./assets/hit.mp3")
+SHOOT_SOUND = pygame.mixer.Sound("./assets/gun_sound.mp3")
 
 WINNER_FONT = pygame.font.SysFont('comicsans', 80)
 MAX_BULLET = 3
@@ -105,11 +107,14 @@ def main():
                 if event.key == pygame.K_LCTRL and len(bullet_counts) < MAX_BULLET:
                         bullet = pygame.Rect(p.x + int(p.width/2), p.y + int(p.height/2), 10, 5)
                         p.bullet_pos.append(bullet)
+                        SHOOT_SOUND.play()
                         
             if event.type == ENEMY_HIT:
                 enemy_health -= 1
+                HIT_SOUND.play()
             if event.type == PLAYER_HIT:
                 player_health -= 1
+                HIT_SOUND.play()
         
         draw_window(win, p, p2, p.bullet_pos, p2.bullet_pos, enemy_health, player_health)
         p.move()
