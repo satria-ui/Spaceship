@@ -25,6 +25,8 @@ PLAYER2_X = 700
 PLAYER2_Y = 400
 
 bullet_counts = []
+bullet_right = []
+bullet_left = []
 BULLET_VEL = 5
 MAX_BULLET = 3
 width = 800
@@ -32,8 +34,8 @@ height = 800
 BULLET_COLOR = (255,0,0)
 
 bullet = pygame.Rect(PLAYER_WIDTH/2, PLAYER1_Y + int(PLAYER_HEIGHT/2), 10, 5)
-bullet_right = bullet.x + BULLET_VEL
-bullet_left = bullet.x - BULLET_VEL
+# bullet_right = bullet.x + BULLET_VEL
+# bullet_left = bullet.x - BULLET_VEL
 
 
 players = [Player(PLAYER1_X,PLAYER1_Y,PLAYER_WIDTH,PLAYER_HEIGHT, (255,0,0), 270, bullet_right), Player(PLAYER2_X,PLAYER2_Y,PLAYER_WIDTH,PLAYER_HEIGHT, (0,255,0), 90, bullet_left)]
