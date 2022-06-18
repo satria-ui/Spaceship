@@ -33,9 +33,6 @@ class Player():
         
         for bullet in bullet_counts:
             pygame.draw.rect(win, BULLET_COLOR, bullet)
-            # self.bullet_pos
-            # if bullet.x > width or bullet.x < 0 :
-            #     bullet_counts.remove(bullet)
             
         for bullet2 in bullet_enemy_counts:
             pygame.draw.rect(win, BULLET_COLOR, bullet2)

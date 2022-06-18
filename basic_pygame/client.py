@@ -1,7 +1,6 @@
 import pygame
 import os
 from network import Network
-from player import Player
 pygame.mixer.init()
 pygame.font.init()
 
@@ -83,10 +82,6 @@ def bullet_enemy_handle(bullet_enemy_counts, p):
 
 
 def main():
-    PLAYER_HEIGHT = 100
-    PLAYER_WIDTH = 100
-    bullet_counts = []
-    bullet_enemy_counts = []
     enemy_health = 10
     player_health  = 10
     
@@ -104,7 +99,7 @@ def main():
                 run = False
                 pygame.quit() 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LCTRL and len(bullet_counts) < MAX_BULLET:
+                if event.key == pygame.K_LCTRL and len(p.bullet_pos) < MAX_BULLET:
                         bullet = pygame.Rect(p.x + int(p.width/2), p.y + int(p.height/2), 10, 5)
                         p.bullet_pos.append(bullet)
                         SHOOT_SOUND.play()
@@ -115,7 +110,7 @@ def main():
             if event.type == PLAYER_HIT:
                 player_health -= 1
                 HIT_SOUND.play()
-        
+                
         draw_window(win, p, p2, p.bullet_pos, p2.bullet_pos, enemy_health, player_health)
         p.move()
         bullet_handle(p.bullet_pos,p2)
